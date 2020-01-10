@@ -29,4 +29,4 @@ if __name__== "__main__":
         # for each racer in the race
             # compare them to all other racers to get an updated score
         # udpate all racers scores from the race
-    
+    print("Hello World")
