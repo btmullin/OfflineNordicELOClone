@@ -28,10 +28,10 @@ if __name__== "__main__":
     dbquery("DROP TABLE IF EXISTS EloScore")
     
     # create the table of scores again now empty
-    dbquery("CREATE TABLE EloScore (EloID int AUTO_INCREMENT,
+    dbquery("""CREATE TABLE EloScore (EloID int AUTO_INCREMENT,
                                     int RacerID NOT NULL,
                                     int EventID NOT NULL,
-                                    PRIMARY KEY(EloID)")
+                                    PRIMARY KEY(EloID)""")
     
     # get a list of races
     # for each racer
