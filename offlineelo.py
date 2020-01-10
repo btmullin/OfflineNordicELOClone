@@ -14,8 +14,10 @@ def dbquery(query):
 
     mycursor.execute(query)
     
-    return mycursor.fetchall()
-    
+    if mycursor.with_rows:
+        return mycursor.fetchall()
+
+    return true
 
 
 
