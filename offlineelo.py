@@ -17,7 +17,7 @@ def dbquery(query):
     if mycursor.with_rows:
         return mycursor.fetchall()
 
-    return true
+    return True
 
 
 
