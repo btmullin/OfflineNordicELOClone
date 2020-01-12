@@ -61,8 +61,7 @@ if __name__== "__main__":
         for racer in racers:
             racer_pts_query = "SELECT Score FROM EloScore, Event WHERE RacerID={} And Event.EventID=EloScore.EventID ORDER BY Event.EventDate DESC LIMIT 1".format(racer[0])
             score = dbquery(racer_pts_query)
-            print score
-            if (isinstance(score, tuple)):
+            if (len(score)>0):
                 # append the score
                 racer_starting_points.append(score[0])
                 racer_new_points.append(score[0])
