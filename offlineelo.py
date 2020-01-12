@@ -81,6 +81,7 @@ if __name__== "__main__":
                     scale_competitor_score = 10 ** (racer_starting_points[competitor] / log_odds_differential)
                     p_win = scale_racer_score / (scale_racer_score + scale_competitor_score)
                     outome = 1
-                    if (racers[competitor][1] < racers[update_racer][1])
+                    if (racers[competitor][1] < racers[update_racer][1]):
                         outcome = 0
                     racer_new_points[update_racer] += k_factor * (outcome - p_win)
+    print "DONE!!"
