@@ -43,8 +43,8 @@ if __name__== "__main__":
                                     Score int NOT NULL)""")
     
     # get a list of races
-    #races = dbquery("SELECT EventID, EventDate FROM Event ORDER BY EventDate ASC")
-    races = dbquery('SELECT * FROM Event WHERE Name LIKE "%Elm%" and Technique=1 ORDER BY EventDate ASC')
+    races = dbquery("SELECT EventID, EventDate FROM Event ORDER BY EventDate ASC")
+    #races = dbquery('SELECT * FROM Event WHERE Name LIKE "%Elm%" and Technique=1 ORDER BY EventDate ASC')
     # for each race
     for race in races:
         # get the results for the race
