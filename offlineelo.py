@@ -92,9 +92,9 @@ if __name__== "__main__":
                 racer_new_points[update_racer] = racer_starting_points[update_racer] + MAX_SCORE_CHANGE
             if (racer_starting_points[update_racer] - racer_new_points[update_racer]) > MAX_SCORE_CHANGE:
                 racer_new_points[update_racer] = racer_starting_points[update_racer] - MAX_SCORE_CHANGE
-            if (racer_new_points[update_racer] > MAX_SCORE)
+            if (racer_new_points[update_racer] > MAX_SCORE):
                 racer_new_points[update_racer] = MAX_SCORE
-            if (racer_new_points[update_racer] < MIN_SCORE
+            if (racer_new_points[update_racer] < MIN_SCORE):
                 racer_new_points[update_racer] = MIN_SCORE
         for i in range(len(racers)):
             print "Race: {} Racer {}: {} to {}".format(race_id,racers[i][0],racer_starting_points[i],racer_new_points[i])
