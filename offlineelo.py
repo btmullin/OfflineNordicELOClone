@@ -85,4 +85,6 @@ if __name__== "__main__":
                     racer_new_points[update_racer] += K_FACTOR * (outcome - p_win)
         for i in range(len(racers)):
             print "Race: {} Racer {}: {} to {}".format(race_id,racers[i][0],racer_starting_points[i],racer_new_points[i])
+            commit_pts_query = "INSERT INTO EloScore (RacerID, EventID, Score) VALUES ({},{},{})".format(racers[i][0],race_id,racer_new_points[i])
+            dbquery(commit_pts_query)
     print "DONE!!"
