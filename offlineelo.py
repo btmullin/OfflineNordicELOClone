@@ -2,8 +2,11 @@ import mysql.connector
 
 # constants
 DEFAULT_SCORE = 1000
-K_FACTOR = 2
+K_FACTOR = 1
 LOG_ODDS_DIFF = 200
+MAX_SCORE_CHANGE = 200
+MIN_SCORE = 100
+MAX_SCORE = 3000
 
 def dbquery(query):
     mydb = mysql.connector.connect(
@@ -43,8 +46,8 @@ if __name__== "__main__":
                                     Score int NOT NULL)""")
     
     # get a list of races
-    races = dbquery("SELECT EventID, EventDate FROM Event ORDER BY EventDate ASC")
-    #races = dbquery('SELECT * FROM Event WHERE Name LIKE "%Elm%" and Technique=1 ORDER BY EventDate ASC')
+    #races = dbquery("SELECT EventID, EventDate FROM Event ORDER BY EventDate ASC")
+    races = dbquery('SELECT * FROM Event WHERE Name LIKE "%Elm%" and Technique=1 ORDER BY EventDate ASC')
     # for each race
     for race in races:
         # get the results for the race
@@ -82,7 +85,17 @@ if __name__== "__main__":
                     outcome = 1
                     if (racers[competitor][1] < racers[update_racer][1]):
                         outcome = 0
+                    print outcome
                     racer_new_points[update_racer] += K_FACTOR * (outcome - p_win)
+            # cap the score change and absolute score
+            if (racer_new_points[update_racer] - racer_starting_points[update_racer]) > MAX_SCORE_CHANGE:
+                racer_new_points[update_racer] = racer_starting_points[update_racer] + MAX_SCORE_CHANGE
+            if (racer_starting_points[update_racer] - racer_new_points[update_racer]) > MAX_SCORE CHANGE:
+                racer_new_points[update_racer] = racer_starting_points[update_racer] - MAX_SCORE_CHANGE
+            if (racer_new_points[update_racer] > MAX_SCORE)
+                racer_new_points[update_racer] = MAX_SCORE
+            if (racer_new_points[update_racer] < MIN_SCORE
+                racer_new_points[update_racer] = MIN_SCORE
         for i in range(len(racers)):
             print "Race: {} Racer {}: {} to {}".format(race_id,racers[i][0],racer_starting_points[i],racer_new_points[i])
             commit_pts_query = "INSERT INTO EloScore (RacerID, EventID, Score) VALUES ({},{},{})".format(racers[i][0],race_id,racer_new_points[i])
