@@ -90,7 +90,7 @@ if __name__== "__main__":
             # cap the score change and absolute score
             if (racer_new_points[update_racer] - racer_starting_points[update_racer]) > MAX_SCORE_CHANGE:
                 racer_new_points[update_racer] = racer_starting_points[update_racer] + MAX_SCORE_CHANGE
-            if (racer_starting_points[update_racer] - racer_new_points[update_racer]) > MAX_SCORE CHANGE:
+            if (racer_starting_points[update_racer] - racer_new_points[update_racer]) > MAX_SCORE_CHANGE:
                 racer_new_points[update_racer] = racer_starting_points[update_racer] - MAX_SCORE_CHANGE
             if (racer_new_points[update_racer] > MAX_SCORE)
                 racer_new_points[update_racer] = MAX_SCORE
