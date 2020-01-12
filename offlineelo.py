@@ -46,8 +46,16 @@ if __name__== "__main__":
                                     Score int NOT NULL)""")
     
     # get a list of races
+    
+    #ALL RACES
     #races = dbquery("SELECT EventID, EventDate FROM Event ORDER BY EventDate ASC")
-    races = dbquery('SELECT * FROM Event WHERE Name LIKE "%Elm%" and Technique=1 ORDER BY EventDate ASC')
+    
+    #ONLY ELM CREEK RACES
+    #races = dbquery('SELECT * FROM Event WHERE Name LIKE "%Elm%" and Technique=1 ORDER BY EventDate ASC')
+    
+    #ONLY RACES IN '19/'20 SEASON
+    races = dbquery('SELECT * FROM Event WHERE EventDate>"2019-06-01" ORDER BY EventDate ASSC')
+    
     # for each race
     for race in races:
         # get the results for the race
@@ -85,7 +93,6 @@ if __name__== "__main__":
                     outcome = 1
                     if (racers[competitor][1] < racers[update_racer][1]):
                         outcome = 0
-                    print "p_win: {}, outcome: {}".format(p_win, outcome)
                     racer_new_points[update_racer] += K_FACTOR * (outcome - p_win)
             # cap the score change and absolute score
             if (racer_new_points[update_racer] - racer_starting_points[update_racer]) > MAX_SCORE_CHANGE:
@@ -97,7 +104,7 @@ if __name__== "__main__":
             if (racer_new_points[update_racer] < MIN_SCORE):
                 racer_new_points[update_racer] = MIN_SCORE
         for i in range(len(racers)):
-            print "Race: {} Racer {}: {} to {}".format(race_id,racers[i][0],racer_starting_points[i],racer_new_points[i])
+            print "Race: {} Racer {}: {} to {}".format(race_id,racers[i][0],racer_starting_points[i],int(racer_new_points[i]))
             commit_pts_query = "INSERT INTO EloScore (RacerID, EventID, Score) VALUES ({},{},{})".format(racers[i][0],race_id,int(racer_new_points[i]))
             dbquery(commit_pts_query)
     print "DONE!!"
