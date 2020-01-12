@@ -83,5 +83,5 @@ if __name__== "__main__":
                     outome = 1
                     if (racers[competitor][1] < racers[update_racer][1]):
                         outcome = 0
-                    racer_new_points[update_racer] += k_factor * (outcome - p_win)
+                    racer_new_points[update_racer] += K_FACTOR * (outcome - p_win)
     print "DONE!!"
