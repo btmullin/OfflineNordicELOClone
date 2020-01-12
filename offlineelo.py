@@ -54,7 +54,7 @@ if __name__== "__main__":
     #races = dbquery('SELECT * FROM Event WHERE Name LIKE "%Elm%" and Technique=1 ORDER BY EventDate ASC')
     
     #ONLY RACES IN '19/'20 SEASON
-    races = dbquery('SELECT * FROM Event WHERE EventDate>"2019-06-01" ORDER BY EventDate ASSC')
+    races = dbquery('SELECT * FROM Event WHERE EventDate>"2019-06-01" ORDER BY EventDate ASC')
     
     # for each race
     for race in races:
