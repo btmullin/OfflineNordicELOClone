@@ -11,7 +11,7 @@ MAX_SCORE = 3000
 def dbquery(query):
 
     success = false
-    while !success:
+    while not success:
 
         try:
             mydb = mysql.connector.connect(
