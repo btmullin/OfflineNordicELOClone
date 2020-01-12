@@ -10,7 +10,7 @@ MAX_SCORE = 3000
 
 def dbquery(query):
 
-    success = false
+    success = False
     while not success:
 
         try:
