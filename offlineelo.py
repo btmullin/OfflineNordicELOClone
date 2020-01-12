@@ -59,7 +59,7 @@ if __name__== "__main__":
         racer_new_points = list()
         existing_points_count = 0
         for racer in racers:
-            racer_pts_query = "SELECT Score FROM EloScore, Event WHERE RacerID={} And Event.EventID=EloScore.EventID ORDER BY Event.EventDate DESC LIMIT 1".format(racer_id)
+            racer_pts_query = "SELECT Score FROM EloScore, Event WHERE RacerID={} And Event.EventID=EloScore.EventID ORDER BY Event.EventDate DESC LIMIT 1".format(racer[0])
             score = dbquery(racer_pts_query)
             if (isinstance(score, tuple)):
                 # append the score
