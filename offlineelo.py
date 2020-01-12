@@ -9,23 +9,32 @@ MIN_SCORE = 100
 MAX_SCORE = 3000
 
 def dbquery(query):
-    mydb = mysql.connector.connect(
-      host="www.nordicraceanalysis.com",
-      user="db_btmullin",
-      passwd="mysql1sCool!",
-      database="nrat_db"
-    )
 
-    mycursor = mydb.cursor()
+    success = false
+    while !success:
 
-    mycursor.execute(query)
-    
-    result = True
-    if mycursor.with_rows:
-        result = mycursor.fetchall()
-    
-    mycursor.close()
-    mydb.close()
+        try:
+            mydb = mysql.connector.connect(
+              host="www.nordicraceanalysis.com",
+              user="db_btmullin",
+              passwd="mysql1sCool!",
+              database="nrat_db"
+            )
+
+            mycursor = mydb.cursor()
+
+            mycursor.execute(query)
+            
+            result = True
+            if mycursor.with_rows:
+                result = mycursor.fetchall()
+        
+            success = True
+        except mysql.connector.Error as err:
+            print "Dealing with "+err
+            
+        mycursor.close()
+        mydb.close()
     
     return result
 
