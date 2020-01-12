@@ -70,11 +70,10 @@ if __name__== "__main__":
         # get the results for the race
         race_id = race[0]
         race_query = "SELECT RacerID, TimeInSec From Result WHERE EventID={} ORDER BY TimeInSec ASC".format(race_id)
-        print "Getting racers in RaceID:{}".format(race_id)
+        print "RaceID:{}".format(race_id)
         racers = dbquery(race_query)
         
         # get all of the latest elo scores for anyone in the race
-        print "Initializing points lists for {} racers".format(len(racers))
         racer_starting_points = list()
         racer_new_points = list()
         existing_points_count = 0
@@ -90,7 +89,6 @@ if __name__== "__main__":
                 # set the default score
                 racer_starting_points.append(DEFAULT_SCORE)
                 racer_new_points.append(DEFAULT_SCORE)
-        print "{} racers had existing points".format(existing_points_count)    
         
         # for each racer in the race
         for update_racer in range(len(racers)):
@@ -113,7 +111,6 @@ if __name__== "__main__":
             if (racer_new_points[update_racer] < MIN_SCORE):
                 racer_new_points[update_racer] = MIN_SCORE
         for i in range(len(racers)):
-            print "Race: {} Racer {}: {} to {}".format(race_id,racers[i][0],racer_starting_points[i],int(racer_new_points[i]))
             commit_pts_query = "INSERT INTO EloScore (RacerID, EventID, Score) VALUES ({},{},{})".format(racers[i][0],race_id,int(racer_new_points[i]))
             dbquery(commit_pts_query)
     print "DONE!!"
