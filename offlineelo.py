@@ -80,7 +80,7 @@ if __name__== "__main__":
                     print "Racers {} vs {}".format(racers[update_racer][0],racers[competitor][0])
                     scale_competitor_score = 10 ** (racer_starting_points[competitor] / LOG_ODDS_DIFF)
                     p_win = scale_racer_score / (scale_racer_score + scale_competitor_score)
-                    outome = 1
+                    outcome = 1
                     if (racers[competitor][1] < racers[update_racer][1]):
                         outcome = 0
                     racer_new_points[update_racer] += K_FACTOR * (outcome - p_win)
