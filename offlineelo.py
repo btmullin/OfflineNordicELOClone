@@ -77,10 +77,10 @@ if __name__== "__main__":
         
         # for each racer in the race
         for update_racer in range(len(racers)):
-            scale_racer_score = 10 ** (racer_starting_points[update_racer] / LOG_ODDS_DIFF)
+            scale_racer_score = 10 ** (float(racer_starting_points[update_racer]) / LOG_ODDS_DIFF)
             for competitor in range(len(racers)):
                 if (update_racer != competitor):
-                    scale_competitor_score = 10 ** (racer_starting_points[competitor] / LOG_ODDS_DIFF)
+                    scale_competitor_score = 10 ** (float(racer_starting_points[competitor]) / LOG_ODDS_DIFF)
                     p_win = scale_racer_score / (scale_racer_score + scale_competitor_score)
                     outcome = 1
                     if (racers[competitor][1] < racers[update_racer][1]):
@@ -98,6 +98,6 @@ if __name__== "__main__":
                 racer_new_points[update_racer] = MIN_SCORE
         for i in range(len(racers)):
             print "Race: {} Racer {}: {} to {}".format(race_id,racers[i][0],racer_starting_points[i],racer_new_points[i])
-            commit_pts_query = "INSERT INTO EloScore (RacerID, EventID, Score) VALUES ({},{},{})".format(racers[i][0],race_id,racer_new_points[i])
+            commit_pts_query = "INSERT INTO EloScore (RacerID, EventID, Score) VALUES ({},{},{})".format(racers[i][0],race_id,int(racer_new_points[i]))
             dbquery(commit_pts_query)
     print "DONE!!"
