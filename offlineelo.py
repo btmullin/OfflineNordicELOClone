@@ -63,8 +63,8 @@ if __name__== "__main__":
             score = dbquery(racer_pts_query)
             if (len(score)>0):
                 # append the score
-                racer_starting_points.append(score[0])
-                racer_new_points.append(score[0])
+                racer_starting_points.append(score[0][0])
+                racer_new_points.append(score[0][0])
                 existing_points_count += 1
             else:
                 # set the default score
