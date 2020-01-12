@@ -85,7 +85,7 @@ if __name__== "__main__":
                     outcome = 1
                     if (racers[competitor][1] < racers[update_racer][1]):
                         outcome = 0
-                    print outcome
+                    print "p_win: {}, outcome: {}".format(p_win, outcome)
                     racer_new_points[update_racer] += K_FACTOR * (outcome - p_win)
             # cap the score change and absolute score
             if (racer_new_points[update_racer] - racer_starting_points[update_racer]) > MAX_SCORE_CHANGE:
