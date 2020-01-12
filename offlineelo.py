@@ -1,6 +1,9 @@
 import mysql.connector
 
 # constants
+DEFAULT_SCORE = 1000
+K_FACTOR = 2
+LOG_ODDS_DIFF = 200
 
 def dbquery(query):
     mydb = mysql.connector.connect(
@@ -14,10 +17,14 @@ def dbquery(query):
 
     mycursor.execute(query)
     
+    result = True
     if mycursor.with_rows:
-        return mycursor.fetchall()
-
-    return True
+        result = mycursor.fetchall()
+    
+    mycursor.close()
+    mydb.close()
+    
+    return result
 
 
 
@@ -32,11 +39,48 @@ if __name__== "__main__":
     # create the table of scores again now empty
     dbquery("""CREATE TABLE EloScore (EloID int AUTO_INCREMENT PRIMARY KEY,
                                     RacerID int NOT NULL,
-                                    EventID int NOT NULL)""")
+                                    EventID int NOT NULL,
+                                    Score int NOT NULL)""")
     
     # get a list of races
-    # for each racer
+    #races = dbquery("SELECT EventID, EventDate FROM Event ORDER BY EventDate ASC")
+    races = dbquery("SELECT * FROM Event WHERE Name LIKE \"%Elm%\" and Technique=1 ORDER BY EventDate ASC")
+    # for each race
+    for race in races
+        # get the results for the race
+        race_id = race[0]
+        race_query = "SELECT RacerID, TimeInSec From Result WHERE EventID={} ORDER BY TimeInSec ASC".format(race_id)
+        print "Getting racers in RaceID:{}".format(race_id)
+        racers = dbquery(race_query)
+        
+        # get all of the latest elo scores for anyone in the race
+        print "Initializing points lists for {} racers".format(len(racers))
+        racer_starting_points = list()
+        racer_new_points = list()
+        existing_points_count = 0
+        for racer in racers:
+            racer_pts_query = "SELECT Score FROM EloScore, Event WHERE RacerID={} And Event.EventID=EloScore.EventID ORDER BY Event.EventDate DESC LIMIT 1".format(racer_id)
+            score = dbquery(racer_pts_query)
+            if (isinstance(score, tuple)):
+                # append the score
+                racer_starting_points.append(score[0])
+                racer_new_points.append(score[0])
+                existing_points_count += 1
+            else:
+                # set the default score
+                racer_starting_points.append(DEFAULT_SCORE)
+                racer_new_points.append(DEFAULT_SCORE)
+        print "{} racers had existing points".format(existing_points_count)    
+        
         # for each racer in the race
-            # compare them to all other racers to get an updated score
-        # udpate all racers scores from the race
-    print("Hello World")
+        for update_racer in range(len(racers)):
+            scale_racer_score = 10 ** (racer_starting_points[update_racer] / log_odds_differential)
+            for competitor in range(len(racers)):
+                if (update_racer != competitor):
+                    print "Racers {} vs {}".format(racers[update_racer][0],racers[competitor][0])
+                    scale_competitor_score = 10 ** (racer_starting_points[competitor] / log_odds_differential)
+                    p_win = scale_racer_score / (scale_racer_score + scale_competitor_score)
+                    outome = 1
+                    if (racers[competitor][1] < racers[update_racer][1])
+                        outcome = 0
+                    racer_new_points[update_racer] += k_factor * (outcome - p_win)
