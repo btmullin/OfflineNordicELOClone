@@ -59,7 +59,7 @@ if __name__== "__main__":
     # get a list of races
     
     #ALL RACES
-    #races = dbquery("SELECT EventID, EventDate FROM Event ORDER BY EventDate ASC")
+    races = dbquery("SELECT EventID, EventDate FROM Event ORDER BY EventDate ASC")
     
     #ONLY ELM CREEK RACES
     #races = dbquery('SELECT * FROM Event WHERE Name LIKE "%Elm%" and Technique=1 ORDER BY EventDate ASC')
@@ -68,7 +68,7 @@ if __name__== "__main__":
     #races = dbquery('SELECT * FROM Event WHERE EventDate>"2019-06-01" ORDER BY EventDate ASC')
     
     #ONLY RACES IN SINCE '18/'19 SEASON
-    races = dbquery('SELECT * FROM Event WHERE EventDate>"2018-06-01" ORDER BY EventDate ASC')
+    #races = dbquery('SELECT * FROM Event WHERE EventDate>"2018-06-01" ORDER BY EventDate ASC')
 
     # for each race
     count = 0
