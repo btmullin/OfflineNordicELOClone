@@ -30,11 +30,13 @@ def dbquery(query):
                 result = mycursor.fetchall()
         
             success = True
+
+            mycursor.close()
+            mydb.close()
+
         except mysql.connector.Error as err:
             print "Dealing with {}".format(err)
             
-        mycursor.close()
-        mydb.close()
     
     return result
 
