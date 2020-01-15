@@ -71,14 +71,16 @@ if __name__== "__main__":
     races = dbquery('SELECT * FROM Event WHERE EventDate>"2018-06-01" ORDER BY EventDate ASC')
 
     # for each race
+    count = 0
     for race in races:
+        count += 1
         # get the results for the race
         race_id = race[0]
         race_query = "SELECT RacerID, TimeInSec From Result WHERE EventID={} ORDER BY TimeInSec ASC".format(race_id)
         racers = dbquery(race_query)
         race_name_query = "SELECT FullName FROM EventView WHERE EventID={}".format(race_id)
         race_name = dbquery(race_name_query)
-        print "Race {}: {}".format(race_id,race_name[0][0])
+        print "Race {} of {} : {} - {}".format(count, len(races),race_id,race_name[0][0])
         
         # get all of the latest elo scores for anyone in the race
         racer_starting_points = list()
