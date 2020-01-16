@@ -133,7 +133,17 @@ if __name__== "__main__":
                 racer_new_points[update_racer] = MAX_SCORE
             if (racer_new_points[update_racer] < MIN_SCORE):
                 racer_new_points[update_racer] = MIN_SCORE
+        commit_pts_query = None
         for i in range(len(racers)):
-            commit_pts_query = "INSERT INTO EloScore (RacerID, EventID, Score) VALUES ({},{},{})".format(racers[i][0],race_id,int(racer_new_points[i]))
+            if commit_pts_query is None:
+                commit_pts_query = "INSERT INTO EloScore (RacerID, EventID, Score) VALUES ({},{},{})".format(racers[i][0],race_id,int(racer_new_points[i]))
+            else:
+                commit_pts_query += ",({},{},{})".format(racers[i][0],race_id,int(racer_new_points[i]))
+            if i % 10:
+                print "  Committing a batch of updates"
+                dbquery(commit_pts_query)
+                commit_pts_query = None
+        if not commit_pts_query is None:
+            print "  Committing the remainder of updates"
             dbquery(commit_pts_query)
     print "DONE!!"
