@@ -139,7 +139,7 @@ if __name__== "__main__":
                 commit_pts_query = "INSERT INTO EloScore (RacerID, EventID, Score) VALUES ({},{},{})".format(racers[i][0],race_id,int(racer_new_points[i]))
             else:
                 commit_pts_query += ",({},{},{})".format(racers[i][0],race_id,int(racer_new_points[i]))
-            if (i % 10) == 0:
+            if (i % 100) == 0:
                 print "  " + commit_pts_query
                 dbquery(commit_pts_query)
                 commit_pts_query = None
