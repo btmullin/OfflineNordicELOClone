@@ -64,7 +64,7 @@ if __name__== "__main__":
                                     EventID int NOT NULL,
                                     Score int NOT NULL)""")
     dbquery("CREATE INDEX RacerIndex ON EloScore (RacerID)")
-    dbquery("CREATE INDEX EventIndex ON EloSCore (EventID)")
+    dbquery("CREATE INDEX EventIndex ON EloScore (EventID)")
     dbquery("CREATE INDEX EventRacerIndex ON EloScore (EventID, RacerID)")
     
     # get a list of races
