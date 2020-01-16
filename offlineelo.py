@@ -135,6 +135,7 @@ if __name__== "__main__":
                 racer_new_points[update_racer] = MIN_SCORE
         commit_pts_query = None
         for i in range(len(racers)):
+            print "i is {}".format(i)
             if commit_pts_query is None:
                 commit_pts_query = "INSERT INTO EloScore (RacerID, EventID, Score) VALUES ({},{},{})".format(racers[i][0],race_id,int(racer_new_points[i]))
             else:
