@@ -41,6 +41,14 @@ def dbquery(query):
     return result
 
 
+def getcurrentscore(scores, racer_id):
+
+    for racer in scores:
+        if (racer[0] == racer_id):
+            return racer[1]
+            
+    return DEFAULT_SCORE
+
 
 if __name__== "__main__":
 
@@ -55,6 +63,9 @@ if __name__== "__main__":
                                     RacerID int NOT NULL,
                                     EventID int NOT NULL,
                                     Score int NOT NULL)""")
+    dbquery("CREATE INDEX RacerIndex ON EloScore (RacerID)")
+    dbquery("CREATE INDEX EventIndex ON EloSCore (EventID)")
+    dbquery("CREATE INDEX EventRacerIndex ON EloScore (EventID, RacerID)")
     
     # get a list of races
     
@@ -86,18 +97,21 @@ if __name__== "__main__":
         racer_starting_points = list()
         racer_new_points = list()
         existing_points_count = 0
+        latest_scores_query = """SELECT OuterRacer.RacerID,
+								(SELECT Score
+									FROM EloScore, Event 
+									WHERE EloScore.RacerID=OuterRacer.RacerID AND 
+										Event.EventID=EloScore.EventID
+									ORDER BY Event.EventDate DESC LIMIT 1) as \"EScore\"
+							FROM EloScore, Racer as OuterRacer
+							WHERE EloScore.RacerID=OuterRacer.RacerID
+							GROUP BY OuterRacer.RacerID ORDER BY "EScore" DESC"""
+        latest_scores = dbquery(latest_scores_query)
         for racer in racers:
-            racer_pts_query = "SELECT Score FROM EloScore, Event WHERE RacerID={} And Event.EventID=EloScore.EventID ORDER BY Event.EventDate DESC LIMIT 1".format(racer[0])
-            score = dbquery(racer_pts_query)
-            if (len(score)>0):
-                # append the score
-                racer_starting_points.append(score[0][0])
-                racer_new_points.append(score[0][0])
-                existing_points_count += 1
-            else:
-                # set the default score
-                racer_starting_points.append(DEFAULT_SCORE)
-                racer_new_points.append(DEFAULT_SCORE)
+            rscore = getcurrentscore(latest_scores, racer[0]
+            # append the score
+            racer_starting_points.append(rscore)
+            racer_new_points.append(rscore)
         
         # for each racer in the race
         for update_racer in range(len(racers)):
