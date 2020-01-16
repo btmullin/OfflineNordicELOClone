@@ -108,7 +108,7 @@ if __name__== "__main__":
 							GROUP BY OuterRacer.RacerID ORDER BY "EScore" DESC"""
         latest_scores = dbquery(latest_scores_query)
         for racer in racers:
-            rscore = getcurrentscore(latest_scores, racer[0]
+            rscore = getcurrentscore(latest_scores, racer[0])
             # append the score
             racer_starting_points.append(rscore)
             racer_new_points.append(rscore)
