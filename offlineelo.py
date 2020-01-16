@@ -140,7 +140,7 @@ if __name__== "__main__":
             else:
                 commit_pts_query += ",({},{},{})".format(racers[i][0],race_id,int(racer_new_points[i]))
             if i % 10:
-                print "  Committing a batch of updates"
+                print "  " + commit_pts_query
                 dbquery(commit_pts_query)
                 commit_pts_query = None
         if not commit_pts_query is None:
