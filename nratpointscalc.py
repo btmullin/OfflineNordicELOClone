@@ -72,7 +72,7 @@ if __name__== "__main__":
     dbquery("""CREATE TABLE NRATPoints (NRATPointID int AUTO_INCREMENT PRIMARY KEY,
                                     RacerID int NOT NULL,
                                     EventID int NOT NULL,
-                                    Points int NOT NULL)""")
+                                    Points float NOT NULL)""")
     dbquery("CREATE INDEX RacerIndex ON NRATPoints (RacerID)")
     dbquery("CREATE INDEX EventIndex ON NRATPoints (EventID)")
     dbquery("CREATE INDEX EventRacerIndex ON NRATPoints (EventID, RacerID)")
@@ -120,15 +120,12 @@ if __name__== "__main__":
         racer_new_points = list()
         for update_racer in range(len(racers)):
             racer_new_points.append(FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1)+race_penalty)
-            if update_racer < 10:
-                print "points: {}".format(racer_new_points[update_racer])
 
         # Save the new scores
         commit_pts_query = None
         for i in range(len(racers)):
             if commit_pts_query is None:
                 commit_pts_query = "INSERT INTO NRATPoints (RacerID, EventID, Points) VALUES ({},{},{})".format(racers[i][0],race_id,racer_new_points[i])
-                print commit_pts_query
             else:
                 commit_pts_query += ",({},{},{})".format(racers[i][0],race_id,racer_new_points[i])
             if (i % 100) == 0:
