@@ -110,7 +110,7 @@ if __name__== "__main__":
         else:
             # penalty = sum best 3 scores in top 5 / 3.75
             top_five = [DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE];
-            for x in range(0,min(5,len(racers)):
+            for x in range(0,min(5,len(racers))):
                 top_five[x] = getcurrentpoints(racers[x][0], race[1])
             top_five.sort(reverse = True)
             race_penalty = (top_five[0] + top_five[1] + top_five[2])/3.75
