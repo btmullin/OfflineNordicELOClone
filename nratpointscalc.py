@@ -125,7 +125,7 @@ if __name__== "__main__":
         commit_pts_query = None
         for i in range(len(racers)):
             if commit_pts_query is None:
-                commit_pts_query = "INSERT INTO NRATPoints (RacerID, EventID, Score) VALUES ({},{},{})".format(racers[i][0],race_id,racer_new_points[i])
+                commit_pts_query = "INSERT INTO NRATPoints (RacerID, EventID, Points) VALUES ({},{},{})".format(racers[i][0],race_id,racer_new_points[i])
             else:
                 commit_pts_query += ",({},{},{})".format(racers[i][0],race_id,racer_new_points[i])
             if (i % 100) == 0:
