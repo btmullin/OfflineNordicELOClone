@@ -83,13 +83,13 @@ if __name__== "__main__":
     races = dbquery("SELECT EventID, EventDate FROM Event ORDER BY EventDate ASC")
     
     #ONLY ELM CREEK RACES
-    #races = dbquery('SELECT * FROM Event WHERE Name LIKE "%Elm%" and Technique=1 ORDER BY EventDate ASC')
+    #races = dbquery('SELECT EventID, EventDate FROM Event WHERE Name LIKE "%Elm%" and Technique=1 ORDER BY EventDate ASC')
     
     #ONLY RACES IN '19/'20 SEASON
-    #races = dbquery('SELECT * FROM Event WHERE EventDate>"2019-06-01" ORDER BY EventDate ASC')
+    #races = dbquery('SELECT EventID, EventDate FROM Event WHERE EventDate>"2019-06-01" ORDER BY EventDate ASC')
     
     #ONLY RACES IN SINCE '18/'19 SEASON
-    #races = dbquery('SELECT * FROM Event WHERE EventDate>"2018-06-01" ORDER BY EventDate ASC')
+    #races = dbquery('SELECT EventID, EventDate FROM Event WHERE EventDate>"2018-06-01" ORDER BY EventDate ASC')
 
     # for each race
     count = 0
@@ -111,7 +111,7 @@ if __name__== "__main__":
             # penalty = sum best 3 scores in top 5 / 3.75
             top_five = [DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE];
             for x in range(0,5):
-                top_five[x] = getcurrentpoints(racers[x][0])
+                top_five[x] = getcurrentpoints(racers[x][0], race[1])
             top_five.sort(reverse = True)
             race_penalty = (top_five[0] + top_five[1] + top_five[2])/3.75
         
@@ -119,7 +119,7 @@ if __name__== "__main__":
         # Calculate the points for each racer
         racer_new_points = list()
         for update_racer in range(len(racers)):
-            racer_new_points.append(FACTOR*racers[update_racer][1]/racers[0][1]+race_penalty)
+            racer_new_points.append(FACTOR*((racers[update_racer][1]/racers[0][1]) - 1)+race_penalty)
 
         # Save the new scores
         commit_pts_query = None
