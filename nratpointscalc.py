@@ -105,7 +105,7 @@ if __name__== "__main__":
         
         # calculate the race penalty
         race_penalty = 0
-        if ((race_name.find("Birkie") != -1) and (race_name.find("Pre") == -1)):
+        if ((race_name[0][0].find("Birkie") != -1) and (race_name[0][0].find("Pre") == -1)):
             race_penalty = 0
         else:
             # penalty = sum best 3 scores in top 5 / 3.75
