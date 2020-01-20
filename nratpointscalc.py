@@ -119,9 +119,9 @@ if __name__== "__main__":
         # Calculate the points for each racer
         racer_new_points = list()
         for update_racer in range(len(racers)):
-            if update_racer < 10:
-                print "t1: {} t2: {} t1/t2: {}".format(racers[update_racer][1], racers[0][1], FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1)+race_penalty)
             racer_new_points.append(FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1)+race_penalty)
+            if update_racer < 10:
+                print "points: {}".format(racer_new_points[update_racer])
 
         # Save the new scores
         commit_pts_query = None
