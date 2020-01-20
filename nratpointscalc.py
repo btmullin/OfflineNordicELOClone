@@ -119,7 +119,8 @@ if __name__== "__main__":
         # Calculate the points for each racer
         racer_new_points = list()
         for update_racer in range(len(racers)):
-            print "t1: {} t2: {} t1/t2: {}".format(racers[update_racer][1], racers[0][1], (float(racers[update_racer][1])/racers[0][1]) - 1)
+            if update_racer < 10:
+                print "t1: {} t2: {} t1/t2: {}".format(racers[update_racer][1], racers[0][1], FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1))
             racer_new_points.append(FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1)+race_penalty)
 
         # Save the new scores
