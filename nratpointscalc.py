@@ -119,14 +119,13 @@ if __name__== "__main__":
         # Calculate the points for each racer
         racer_new_points = list()
         for update_racer in range(len(racers)):
-            racer_new_points.append(FACTOR*((racers[update_racer][1]/racers[0][1]) - 1.0)+race_penalty)
+            racer_new_points.append(FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1)+race_penalty)
 
         # Save the new scores
         commit_pts_query = None
         for i in range(len(racers)):
             if commit_pts_query is None:
                 commit_pts_query = "INSERT INTO NRATPoints (RacerID, EventID, Points) VALUES ({},{},{})".format(racers[i][0],race_id,racer_new_points[i])
-                print commit_pts_query
             else:
                 commit_pts_query += ",({},{},{})".format(racers[i][0],race_id,racer_new_points[i])
             if (i % 100) == 0:
