@@ -47,7 +47,7 @@ def getcurrentpoints(racer_id, current_date):
     start_date = current_date.replace(year=current_date.year-1)
     start_date_str = datetime.strftime(start_date, '%Y-%m-%d')
     current_date_str = datetime.strftime(current_date, '%Y-%m-%d')
-    query = "SELECT Event.EventID, EventDate, Points FROM NRATPoints, Event WHERE RacerID={} AND Event.EventID=NRATPoints.EventID AND Event.EventDate >= \'{}\' AND Event.EventDate < \'{}\' ORDER BY Points DESC".format(racer_id,start_date_str,current_date_str)
+    query = "SELECT Event.EventID, EventDate, Points FROM NRATPoints, Event WHERE RacerID={} AND Event.EventID=NRATPoints.EventID AND Event.EventDate >= \'{}\' AND Event.EventDate < \'{}\' ORDER BY Points ASC".format(racer_id,start_date_str,current_date_str)
     points = dbquery(query)
     
     count = 0
