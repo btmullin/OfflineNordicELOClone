@@ -1,4 +1,5 @@
 import mysql.connector
+from datetime import date
 
 # constants
 DEFAULT_SCORE = 400.0
@@ -37,11 +38,15 @@ def dbquery(query):
     return result
 
 
-def getcurrentpoints(racer_id, date):
+def getcurrentpoints(racer_id, current_date):
     # TODO - query for scores within 12 months of date
     # score is average of best five or
     # avg 4*1.1, avg 3*1.2, avg 2*1.3, avg 1*1.4
     #query = "SELECT EventID, EventDate, Points FROM NRATPoints, Event WHERE NRATPoints.EventID=Event.EventID AND Event.EventDate
+    start_date = datetime.strptime(current_date, '%Y-%m-%d')
+    start_date.replace(year=start_date.year-1)
+    start_date_str = datetime.strftime(start_date, '%Y-%m-%d)
+    print start_date_str + current_date
             
     return DEFAULT_SCORE
 
