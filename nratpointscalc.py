@@ -1,5 +1,6 @@
 import mysql.connector
 from datetime import date
+import datetime
 
 # constants
 DEFAULT_SCORE = 400.0
