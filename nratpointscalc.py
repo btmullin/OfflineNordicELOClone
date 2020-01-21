@@ -57,7 +57,7 @@ def getcurrentpoints(racer_id, current_date):
         total += points[i][2]
     
     if count > 0:
-        points = (total/count)*(0.5-(count/10.0))
+        points = (total/count)*(1.5-(count/10.0))
         print "Count: {}, Total: {}, Points: {}".format(count, total, points)
         return points
     else:   
