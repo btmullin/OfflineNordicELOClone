@@ -45,7 +45,7 @@ def getcurrentpoints(racer_id, current_date):
     # score is average of best five or
     # avg 4*1.1, avg 3*1.2, avg 2*1.3, avg 1*1.4
     #query = "SELECT EventID, EventDate, Points FROM NRATPoints, Event WHERE NRATPoints.EventID=Event.EventID AND Event.EventDate
-    start_date = datetime.strptime(current_date, '%Y-%m-%d')
+    start_date = time.strptime(current_date, '%Y-%m-%d')
     start_date.replace(year=start_date.year-1)
     start_date_str = time.strftime(start_date, '%Y-%m-%d')
     print start_date_str + current_date
