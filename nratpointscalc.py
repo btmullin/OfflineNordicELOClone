@@ -58,7 +58,6 @@ def getcurrentpoints(racer_id, current_date):
     
     if count > 0:
         points = (total/count)*(1.5-(count/10.0))
-        print "Count: {}, Total: {}, Points: {}".format(count, total, points)
         return points
     else:   
         return DEFAULT_SCORE
@@ -125,6 +124,7 @@ if __name__== "__main__":
         race_penalty = 0
         if ((race_name[0][0].find("Birkie") != -1) and (race_name[0][0].find("Pre") == -1)):
             race_penalty = 0
+            print "Race Penalty: 0"
         else:
             # penalty = sum best 3 scores in top 5 / 3.75
             top_five = [DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE];
