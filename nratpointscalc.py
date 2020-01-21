@@ -44,13 +44,24 @@ def getcurrentpoints(racer_id, current_date):
     # TODO - query for scores within 12 months of date
     # score is average of best five or
     # avg 4*1.1, avg 3*1.2, avg 2*1.3, avg 1*1.4
-    #query = "SELECT EventID, EventDate, Points FROM NRATPoints, Event WHERE NRATPoints.EventID=Event.EventID AND Event.EventDate
     start_date = current_date.replace(year=current_date.year-1)
     start_date_str = datetime.strftime(start_date, '%Y-%m-%d')
     current_date_str = datetime.strftime(current_date, '%Y-%m-%d')
-    print start_date_str + current_date_str
-            
-    return DEFAULT_SCORE
+    query = "SELECT Event.EventID, EventDate, Points FROM NRATPoints, Event WHERE RacerID={} AND Event.EventID=NRATPoints.EventID AND Event.EventDate >= \'{}\' AND Event.EventDate < \'{}\' ORDER BY Points DESC".format(racer_id,start_date_str,current_date_str)
+    points = dbquery(query)
+    
+    count = 0
+    total = 0
+    for i in range(min(5,len(points))):
+        count += 1
+        total += points[i][2]
+    
+    if count > 0:
+        points = (total/count)*(0.5-(count/10.0))
+        print "Count: {}, Total: {}, Points: {}".format(count, total, points)
+        return points
+    else:   
+        return DEFAULT_SCORE
 
 
         # get all of the latest nrat points for anyone in the race
