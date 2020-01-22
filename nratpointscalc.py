@@ -21,7 +21,7 @@ def dbquery(query):
 
         try:
             #mydb = mysql.connector.connect(
-            mydeb = MySQLdb.connect(
+            mydb = MySQLdb.connect(
               host="www.nordicraceanalysis.com",
               user="db_btmullin",
               passwd="mysql1sCool!",
