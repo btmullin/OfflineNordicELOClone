@@ -141,7 +141,8 @@ if __name__== "__main__":
             racer_race_points.append(FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1)+race_penalty)
             # TODO update to calling the updated getcurrentpoints function with the new score so we can get the starting score and the ending score
             racer_starting_points.append(getcurrentpoints(racers[update_racer][0], race[1]))
-            print "Racer: {}".format(update_racer)
+            if ((update_racer % (len(racers)/20)) == 0)
+                print(".", end='')
 
         # Save the new scores
         commit_pts_query = None
