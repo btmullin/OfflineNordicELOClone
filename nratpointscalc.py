@@ -135,7 +135,7 @@ if __name__== "__main__":
         racer_starting_points = list()
         racer_ending_points = list()
         for update_racer in range(len(racers)):
-            racer_new_points.append(FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1)+race_penalty)
+            racer_race_points.append(FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1)+race_penalty)
             racer_starting_points.append(getcurrentpoints(racers[update_racer][0], race[1]))
 
         # Save the new scores
