@@ -5,7 +5,7 @@ from datetime import datetime
 
 # constants
 DEFAULT_SCORE = 400.0
-FACTOR = 800.0
+FACTOR = 1200.0
 PENALTY_TOP_RESULTS = 2
 PENALTY_TOP_SCORES_FACTOR = 3
 POINTS_RACE_COUNT = 3
@@ -43,6 +43,8 @@ def dbquery(query):
     return result
 
 
+# TODO - add a default argument for a new score
+# TODO - return a list that is the starting score and the new score, the new score being the starting score unless something was passed in for a score
 def getcurrentpoints(racer_id, current_date):
     # score is average of best POINTS_RACE_COUNT or
     # 10% greater for every race less than POINTS_RACE_COUNT
@@ -134,14 +136,17 @@ if __name__== "__main__":
         racer_race_points = list()
         racer_starting_points = list()
         racer_ending_points = list()
+        # TODO - output some dots for a spinny wheel of death instead of printing out the racer number.. this is going to go SLOW!
         for update_racer in range(len(racers)):
             racer_race_points.append(FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1)+race_penalty)
+            # TODO update to calling the updated getcurrentpoints function with the new score so we can get the starting score and the ending score
             racer_starting_points.append(getcurrentpoints(racers[update_racer][0], race[1]))
             print "Racer: {}".format(update_racer)
 
         # Save the new scores
         commit_pts_query = None
         for i in range(len(racers)):
+        # TODO - add the ending score
             if commit_pts_query is None:
                 commit_pts_query = "INSERT INTO NRATPoints (RacerID, EventID, RacePoints, StartingPoints, EndingPoints) VALUES ({},{},{},{},{})".format(racers[i][0],race_id,racer_race_points[i],racer_starting_points[i],0.0)
             else:
