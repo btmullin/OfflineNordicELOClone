@@ -20,8 +20,8 @@ def dbquery(query):
     while not success:
 
         try:
-            #mydb = mysql.connector.connect(
-            mydb = MySQLdb.connect(
+            mydb = mysql.connector.connect(
+            #mydb = MySQLdb.connect(
               host="www.nordicraceanalysis.com",
               user="db_btmullin",
               passwd="mysql1sCool!",
