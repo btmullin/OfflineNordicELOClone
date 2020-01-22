@@ -1,3 +1,4 @@
+import sys
 import mysql.connector
 from datetime import date
 from datetime import time
@@ -142,7 +143,7 @@ if __name__== "__main__":
             # TODO update to calling the updated getcurrentpoints function with the new score so we can get the starting score and the ending score
             racer_starting_points.append(getcurrentpoints(racers[update_racer][0], race[1]))
             if ((update_racer % (len(racers)/20)) == 0):
-                print(".", end='')
+                sys.stdout.write(".")
 
         # Save the new scores
         commit_pts_query = None
