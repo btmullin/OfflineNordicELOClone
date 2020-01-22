@@ -121,7 +121,6 @@ if __name__== "__main__":
             for x in range(0,min(5,len(racers))):
                 top_five[x] = getcurrentpoints(racers[x][0], race[1])
             top_five.sort()
-			race_penalty = 0
 			for i in range(PENALTY_TOP_RESULTS)
 				race_penalty += top_five[i]
             race_penalty /= PENALTY_TOP_SCORES_FACTOR
