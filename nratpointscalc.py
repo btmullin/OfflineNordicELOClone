@@ -6,6 +6,9 @@ from datetime import datetime
 # constants
 DEFAULT_SCORE = 400.0
 FACTOR = 800.0
+PENALTY_TOP_RESULTS = 2
+PENALTY_TOP_SCORES_FACTOR = 3
+POINTS_RACE_COUNT = 3
 
 def dbquery(query):
 
@@ -41,9 +44,8 @@ def dbquery(query):
 
 
 def getcurrentpoints(racer_id, current_date):
-    # TODO - query for scores within 12 months of date
-    # score is average of best five or
-    # avg 4*1.1, avg 3*1.2, avg 2*1.3, avg 1*1.4
+    # score is average of best POINTS_RACE_COUNT or
+    # 10% greater for every race less than POINTS_RACE_COUNT
     start_date = current_date.replace(year=current_date.year-1)
     start_date_str = datetime.strftime(start_date, '%Y-%m-%d')
     current_date_str = datetime.strftime(current_date, '%Y-%m-%d')
@@ -52,28 +54,16 @@ def getcurrentpoints(racer_id, current_date):
     
     count = 0
     total = 0
-    for i in range(min(5,len(points))):
+    for i in range(min(POINTS_RACE_COUNT,len(points))):
         count += 1
         total += points[i][2]
     
     if count > 0:
-        points = (total/count)*(1.5-(count/10.0))
+        points = (total/count)*(1+(POINTS_RACE_COUNT-count)/10)
         return points
     else:   
         return DEFAULT_SCORE
 
-
-        # get all of the latest nrat points for anyone in the race
-#        latest_scores_query = """SELECT OuterRacer.RacerID,
-#								(SELECT Score
-#									FROM EloScore, Event 
-#									WHERE EloScore.RacerID=OuterRacer.RacerID AND 
-#										Event.EventID=EloScore.EventID
-#									ORDER BY Event.EventDate DESC LIMIT 1) as \"EScore\"
-#							FROM EloScore, Racer as OuterRacer
-#							WHERE EloScore.RacerID=OuterRacer.RacerID
-#							GROUP BY OuterRacer.RacerID ORDER BY "EScore" DESC"""
-#        latest_scores = dbquery(latest_scores_query)
         
 
 
@@ -126,12 +116,15 @@ if __name__== "__main__":
             race_penalty = 0
             print "Race Penalty: 0"
         else:
-            # penalty = sum best 3 scores in top 5 / 3.75
+            # penalty = sum best PENALTY_TOP_RESULTS scores in top 5 / PENALTY_TOP_SCORES_FACTOR
             top_five = [DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE];
             for x in range(0,min(5,len(racers))):
                 top_five[x] = getcurrentpoints(racers[x][0], race[1])
             top_five.sort()
-            race_penalty = (top_five[0] + top_five[1] + top_five[2])/3.75
+			race_penalty = 0
+			for i in range(PENALTY_TOP_RESULTS)
+				race_penalty += top_five[i]
+            race_penalty /= PENALTY_TOP_SCORES_FACTOR
             print "Race Penalty: {}, {}, {}, {}, {}: {}".format(top_five[0],top_five[1],top_five[2],top_five[3],top_five[4],race_penalty)
         
         # for each racer in the race
