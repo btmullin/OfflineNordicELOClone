@@ -1,6 +1,6 @@
 import sys
 import mysql.connector
-import MySqldb
+import MySQLdb
 from datetime import date
 from datetime import time
 from datetime import datetime
