@@ -1,5 +1,6 @@
 import sys
 import mysql.connector
+import MySqldb
 from datetime import date
 from datetime import time
 from datetime import datetime
@@ -11,13 +12,16 @@ PENALTY_TOP_RESULTS = 2
 PENALTY_TOP_SCORES_FACTOR = 3
 POINTS_RACE_COUNT = 3
 
+
+
 def dbquery(query):
 
     success = False
     while not success:
 
         try:
-            mydb = mysql.connector.connect(
+            #mydb = mysql.connector.connect(
+            mydeb = MySQLdb.connect(
               host="www.nordicraceanalysis.com",
               user="db_btmullin",
               passwd="mysql1sCool!",
@@ -144,6 +148,8 @@ if __name__== "__main__":
             racer_starting_points.append(getcurrentpoints(racers[update_racer][0], race[1]))
             if ((update_racer % (len(racers)/20)) == 0):
                 sys.stdout.write(".")
+                sys.stdout.flush()
+        print ""
 
         # Save the new scores
         commit_pts_query = None
