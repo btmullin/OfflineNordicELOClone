@@ -49,7 +49,7 @@ def getcurrentpoints(racer_id, current_date):
     start_date = current_date.replace(year=current_date.year-1)
     start_date_str = datetime.strftime(start_date, '%Y-%m-%d')
     current_date_str = datetime.strftime(current_date, '%Y-%m-%d')
-    query = "SELECT Event.EventID, EventDate, Points FROM NRATPoints, Event WHERE RacerID={} AND Event.EventID=NRATPoints.EventID AND Event.EventDate >= \'{}\' AND Event.EventDate < \'{}\' ORDER BY Points ASC".format(racer_id,start_date_str,current_date_str)
+    query = "SELECT Event.EventID, EventDate, RacePoints FROM NRATPoints, Event WHERE RacerID={} AND Event.EventID=NRATPoints.EventID AND Event.EventDate >= \'{}\' AND Event.EventDate < \'{}\' ORDER BY RacePoints ASC".format(racer_id,start_date_str,current_date_str)
     points = dbquery(query)
     
     count = 0
@@ -79,7 +79,9 @@ if __name__== "__main__":
     dbquery("""CREATE TABLE NRATPoints (NRATPointID int AUTO_INCREMENT PRIMARY KEY,
                                     RacerID int NOT NULL,
                                     EventID int NOT NULL,
-                                    Points float NOT NULL)""")
+                                    RacePoints float NOT NULL,
+                                    StartingPoints float NOT NULL,
+                                    EndingPoints float NOT NULL)""")
     dbquery("CREATE INDEX RacerIndex ON NRATPoints (RacerID)")
     dbquery("CREATE INDEX EventIndex ON NRATPoints (EventID)")
     dbquery("CREATE INDEX EventRacerIndex ON NRATPoints (EventID, RacerID)")
@@ -129,17 +131,20 @@ if __name__== "__main__":
         
         # for each racer in the race
         # Calculate the points for each racer
-        racer_new_points = list()
+        racer_race_points = list()
+        racer_starting_points = list()
+        racer_ending_points = list()
         for update_racer in range(len(racers)):
             racer_new_points.append(FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1)+race_penalty)
+            racer_starting_points.append(getcurrentpoints(racers[update_racer][0], race[1]))
 
         # Save the new scores
         commit_pts_query = None
         for i in range(len(racers)):
             if commit_pts_query is None:
-                commit_pts_query = "INSERT INTO NRATPoints (RacerID, EventID, Points) VALUES ({},{},{})".format(racers[i][0],race_id,racer_new_points[i])
+                commit_pts_query = "INSERT INTO NRATPoints (RacerID, EventID, RacePoints, StartingPoints, EndingPoints) VALUES ({},{},{},{},{})".format(racers[i][0],race_id,racer_race_points[i],racer_starting_points[i],0.0)
             else:
-                commit_pts_query += ",({},{},{})".format(racers[i][0],race_id,racer_new_points[i])
+                commit_pts_query += ",({},{},{},{},{})".format(racers[i][0],race_id,racer_race_points[i],racer_starting_points[i],0.0)
             if (i % 100) == 0:
                 dbquery(commit_pts_query)
                 commit_pts_query = None
