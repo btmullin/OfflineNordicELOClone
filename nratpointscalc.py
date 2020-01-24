@@ -69,6 +69,8 @@ def getracestartingpoints(current_date):
             points[point_scores[i][0]] = point_scores[i][2]*(1+(POINTS_RACE_COUNT-point_scores[i][3])/10.0)
         else:
             points[point_scores[i][0]] = DEFAULT_SCORE
+    if point_scores[i][3] >= 3
+        print "WTH - counter bigger than three!"
     return points
     
 
