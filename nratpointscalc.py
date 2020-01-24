@@ -73,7 +73,8 @@ def getracestartingpoints(current_date):
         if point_scores[i][2] >= 3:
             print "WTH - counter bigger than three! rid: {} count: {} avg: {} score: {}".format(point_scores[i][0],point_scores[i][2],point_scores[i][1], points[point_scores[i][0]])
             quit = True
-    if quit
+    if quit:
+        print query
         exit()
     return points
     
