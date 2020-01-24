@@ -145,7 +145,7 @@ if __name__== "__main__":
         racer_ending_points = list()
         for update_racer in range(len(racers)):
             racer_race_points.append(FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1)+race_penalty)
-            racer_starting_points.append(getcurrentpoints(racers[update_racer][0], starting_points)
+            racer_starting_points.append(getcurrentpoints(racers[update_racer][0], starting_points))
 
         # Save the new scores
         commit_pts_query = None
