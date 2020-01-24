@@ -66,7 +66,7 @@ def getracestartingpoints(current_date):
     points = dict()
     for i in range(len(point_scores)):
         if point_scores[i][3] > 0:
-            points[point_scores[i][0]] = point_scores[i][2]*(1+(POINTS_RACE_COUNT-point_scores[i][3])/10)
+            points[point_scores[i][0]] = point_scores[i][2]*(1+(POINTS_RACE_COUNT-point_scores[i][3])/10.0)
         else:
             points[point_scores[i][0]] = DEFAULT_SCORE
     return points
