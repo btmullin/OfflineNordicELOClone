@@ -64,6 +64,7 @@ def getracestartingpoints(current_date):
     query = "SELECT RacerID, avg(RacePoints) as \'Average\', count(RacePoints) as \'Count\' FROM (SELECT * FROM (SELECT NRATPoints.*, @racer_rank := IF(@racer_id = RacerID, @racer_rank+1, 1) AS Rank, @racer_id := RacerID FROM NRATPoints, Event WHERE Event.EventID=NRATPoints.EventID AND Event.EventDate >= \'{}\' AND Event.EventDate < \'{}\' ORDER BY RacerID, RacePoints ASC) ranked_points WHERE rank <= {}) filtered GROUP BY RacerID".format(start_date_str,current_date_str,POINTS_RACE_COUNT)
     point_scores = dbquery(query)
     points = dict()
+    quit = False
     for i in range(len(point_scores)):
         if point_scores[i][2] > 0:
             points[point_scores[i][0]] = point_scores[i][1]*(1+(POINTS_RACE_COUNT-point_scores[i][2])/10.0)
@@ -71,6 +72,9 @@ def getracestartingpoints(current_date):
             points[point_scores[i][0]] = DEFAULT_SCORE
         if point_scores[i][2] >= 3:
             print "WTH - counter bigger than three! rid: {} count: {} avg: {} score: {}".format(point_scores[i][0],point_scores[i][2],point_scores[i][1], points[point_scores[i][0]])
+            quit = True
+    if quit
+        exit()
     return points
     
 
