@@ -61,7 +61,7 @@ def getracestartingpoints(current_date):
     start_date = current_date.replace(year=current_date.year-1)
     start_date_str = datetime.strftime(start_date, '%Y-%m-%d')
     current_date_str = datetime.strftime(current_date, '%Y-%m-%d')
-    query = "SELECT RacerID, EventID, avg(RacePoints) as \'Average\', count(RacePoints) as \'Count\' FROM (SELECT NRATPoints.*, @racer_rank := IF(@racer_id = RacerID, @racer_rank+1, 1) AS Rank, @racer_id := RacerID FROM NRATPoints, Event WHERE Event.EventID=NRATPoints.EventID AND Event.EventDate >= {} AND Event.EventDate < {} ORDER BY RacerID, RacePoints ASC) ranked_points WHERE rank <= {} GROUP BY RacerID".format(start_date_str,current_date_str,POINTS_RACE_COUNT)
+    query = "SELECT RacerID, EventID, avg(RacePoints) as \'Average\', count(RacePoints) as \'Count\' FROM (SELECT NRATPoints.*, @racer_rank := IF(@racer_id = RacerID, @racer_rank+1, 1) AS Rank, @racer_id := RacerID FROM NRATPoints, Event WHERE Event.EventID=NRATPoints.EventID AND Event.EventDate >= \'{}\' AND Event.EventDate < \'{}\' ORDER BY RacerID, RacePoints ASC) ranked_points WHERE rank <= {} GROUP BY RacerID".format(start_date_str,current_date_str,POINTS_RACE_COUNT)
     point_scores = dbquery(query)
     points = dict()
     for i in range(len(point_scores)):
