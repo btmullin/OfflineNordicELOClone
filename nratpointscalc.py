@@ -70,7 +70,7 @@ def getracestartingpoints(current_date):
         else:
             points[point_scores[i][0]] = DEFAULT_SCORE
         if point_scores[i][2] >= 3:
-            print "WTH - counter bigger than three! rid: {} count: {} avg: {} score: {}".format(point_scores[i][0],point_scores[i][2],point_scores[i][1], points[point_scores[i][0])
+            print "WTH - counter bigger than three! rid: {} count: {} avg: {} score: {}".format(point_scores[i][0],point_scores[i][2],point_scores[i][1], points[point_scores[i][0]])
     return points
     
 
