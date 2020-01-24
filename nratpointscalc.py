@@ -48,26 +48,9 @@ def dbquery(query):
     return result
 
 
-# TODO - add a default argument for a new score
-# TODO - return a list that is the starting score and the new score, the new score being the starting score unless something was passed in for a score
-def getcurrentpoints(racer_id, current_date):
-    # score is average of best POINTS_RACE_COUNT or
-    # 10% greater for every race less than POINTS_RACE_COUNT
-    start_date = current_date.replace(year=current_date.year-1)
-    start_date_str = datetime.strftime(start_date, '%Y-%m-%d')
-    current_date_str = datetime.strftime(current_date, '%Y-%m-%d')
-    query = "SELECT Event.EventID, EventDate, RacePoints FROM NRATPoints, Event WHERE RacerID={} AND Event.EventID=NRATPoints.EventID AND Event.EventDate >= \'{}\' AND Event.EventDate < \'{}\' ORDER BY RacePoints ASC".format(racer_id,start_date_str,current_date_str)
-    points = dbquery(query)
-    
-    count = 0
-    total = 0
-    for i in range(min(POINTS_RACE_COUNT,len(points))):
-        count += 1
-        total += points[i][2]
-    
-    if count > 0:
-        points = (total/count)*(1+(POINTS_RACE_COUNT-count)/10)
-        return points
+def getcurrentpoints(racer_id, points):
+    if racer_id in points:
+        return points[racer_id]
     else:   
         return DEFAULT_SCORE
 
@@ -87,6 +70,8 @@ def getracestartingpoints(current_date):
         else:
             points[point_scores[i][0]] = DEFAULT_SCORE
     return points
+    
+
 
 if __name__== "__main__":
 
@@ -145,7 +130,7 @@ if __name__== "__main__":
             # penalty = sum best PENALTY_TOP_RESULTS scores in top 5 / PENALTY_TOP_SCORES_FACTOR
             top_five = [DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE, DEFAULT_SCORE];
             for x in range(0,min(5,len(racers))):
-                top_five[x] = starting_points[racers[x][0]]
+                top_five[x] = getcurrentpoints(racers[x][0],starting_points)
             top_five.sort()
             race_penalty = 0
             for i in range(PENALTY_TOP_RESULTS):
@@ -160,7 +145,7 @@ if __name__== "__main__":
         racer_ending_points = list()
         for update_racer in range(len(racers)):
             racer_race_points.append(FACTOR*((float(racers[update_racer][1])/racers[0][1]) - 1)+race_penalty)
-            racer_starting_points.append(starting_points[racers[update_racer][0]])
+            racer_starting_points.append(getcurrentpoints(racers[update_racer][0], starting_points)
 
         # Save the new scores
         commit_pts_query = None
